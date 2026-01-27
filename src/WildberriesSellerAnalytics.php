@@ -1,4 +1,5 @@
 <?php
+
 namespace Filippi4\Wildberries;
 
 use Carbon\Carbon;
@@ -160,10 +161,12 @@ class WildberriesSellerAnalytics extends WildberriesSellerAnalyticsClient
      * @param string $endPeriod
      * @param string $topOrderBy
      * @param array $nmIds
+     * @param int $limit
      * @return mixed
      */
-    public function getWbProductSearchTexts($nmIds, $startPeriod, $endPeriod, $topOrderBy): mixed
+    public function getWbProductSearchTexts($nmIds, $startPeriod, $endPeriod, $topOrderBy, $limit = 100): mixed
     {
+
 
         $props = [
             'nmIds'         => $nmIds,
@@ -171,13 +174,14 @@ class WildberriesSellerAnalytics extends WildberriesSellerAnalyticsClient
                 'start' => $startPeriod,
                 'end'   => $endPeriod,
             ],
-            'topOrderBy'    => $topOrderBy,
-            "orderBy"       => [
-                "field" => "avgPosition",
-                "mode"  => "asc",
+            'topOrderBy' => $topOrderBy,
+            "orderBy"    => [
+                "field" => "orders",
+                "mode"  => "desc",
             ],
-            "limit"         => 30,
+            "limit" => $limit,
         ];
+
 
         return (new WildberriesData($this->postResponse('api/v2/search-report/product/search-texts', $props)))->data;
     }
@@ -194,8 +198,8 @@ class WildberriesSellerAnalytics extends WildberriesSellerAnalyticsClient
     {
 
         $props = [
-            'nmId'        => $nmId,
-            'period'      => [
+            'nmId'   => $nmId,
+            'period' => [
                 'start' => $startPeriod,
                 'end'   => $endPeriod,
             ],
@@ -350,8 +354,8 @@ class WildberriesSellerAnalytics extends WildberriesSellerAnalyticsClient
                 'start' => $startPeriod,
                 'end'   => $endPeriod,
             ],
-            'stockType'     => '',
-            'orderBy'       => [
+            'stockType' => '',
+            'orderBy'   => [
                 'field' => $orderByField,
                 'mode'  => 'asc',
             ],
