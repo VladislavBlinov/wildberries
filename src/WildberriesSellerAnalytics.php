@@ -364,4 +364,50 @@ class WildberriesSellerAnalytics extends WildberriesSellerAnalyticsClient
 
         return (new WildberriesData($this->postResponse('api/v2/stocks-report/products/sizes', $props)))->data;
     }
+
+    /**
+     *
+     * @param array $nmIds,
+     * @param array $currentPeriod,
+     * @param string $orderByField,
+     * @param ?array $pastPeriod = null
+     * @param int $limit = 100,
+     * @param int $offset = 0,
+     * @param bool $includeSubstitutedSKUs,
+     * @param bool $includeSearchTexts,
+     * @param string $positionCluster,
+ *
+     * @return mixed
+     */
+    public function getWbSearchReport(
+        array $nmIds,
+        array $currentPeriod,
+        string $orderByField,
+        ?array $pastPeriod = null,
+        int $limit = 100,
+        int $offset = 0,
+        bool $includeSubstitutedSKUs = true,
+        bool $includeSearchTexts = true,
+        string $positionCluster = 'all',
+    )
+    : mixed
+    {
+        $props = array_filter([
+            'nmIds'         => $nmIds,
+            'currentPeriod' => $currentPeriod,
+            'pastPeriod'    => $pastPeriod,
+            "orderBy"       => [
+                "field" => $orderByField,
+                "mode"  => "desc",
+            ],
+            "positionCluster"        => $positionCluster,
+            "includeSubstitutedSKUs" => $includeSubstitutedSKUs,
+            "includeSearchTexts"     => $includeSearchTexts,
+            "limit"                  => $limit,
+            "offset"                 => $offset,
+        ], fn($value) => $value !== null);
+
+
+        return (new WildberriesData($this->postResponse('api/v2/search-report/report', $props)))->data;
+    }
 }
