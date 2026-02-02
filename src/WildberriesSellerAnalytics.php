@@ -392,7 +392,7 @@ class WildberriesSellerAnalytics extends WildberriesSellerAnalyticsClient
     )
     : mixed
     {
-        $props = [
+        $props = array_filter([
             'nmIds'         => $nmIds,
             'currentPeriod' => $currentPeriod,
             'pastPeriod'    => $pastPeriod,
@@ -405,7 +405,7 @@ class WildberriesSellerAnalytics extends WildberriesSellerAnalyticsClient
             "includeSearchTexts"     => $includeSearchTexts,
             "limit"                  => $limit,
             "offset"                 => $offset,
-        ];
+        ], fn($value) => $value !== null);
 
 
         return (new WildberriesData($this->postResponse('api/v2/search-report/report', $props)))->data;
