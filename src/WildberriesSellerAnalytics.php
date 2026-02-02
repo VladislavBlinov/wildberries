@@ -364,4 +364,60 @@ class WildberriesSellerAnalytics extends WildberriesSellerAnalyticsClient
 
         return (new WildberriesData($this->postResponse('api/v2/stocks-report/products/sizes', $props)))->data;
     }
+
+    /**
+     *
+     * @param array $nmIds,
+     * @param string $currentStartPeriod,
+     * @param string $currentEndPeriod,
+     * @param string $orderByField,
+     * @param ?string $pastStartPeriod,
+     * @param ?string $pastEndPeriod,
+     * @param int $limit = 100,
+     * @param int $offset = 0,
+     * @param bool $includeSubstitutedSKUs,
+     * @param bool $includeSearchTexts,
+     * @param string $positionCluster,
+ *
+     * @return mixed
+     */
+    public function getWbSearchReport(
+        array $nmIds,
+        string $currentStartPeriod,
+        string $currentEndPeriod,
+        string $orderByField,
+        ?string $pastStartPeriod = null,
+        ?string $pastEndPeriod = null,
+        int $limit = 100,
+        int $offset = 0,
+        bool $includeSubstitutedSKUs = true,
+        bool $includeSearchTexts = true,
+        string $positionCluster = 'all',
+    )
+    : mixed
+    {
+        $props = [
+            'nmIds'         => $nmIds,
+            'currentPeriod' => [
+                'start' => $currentStartPeriod,
+                'end'   => $currentEndPeriod,
+            ],
+            'pastPeriod' => [
+                'start' => $pastStartPeriod,
+                'end'   => $pastEndPeriod,
+            ],
+            "orderBy"    => [
+                "field" => $orderByField,
+                "mode"  => "desc",
+            ],
+            "positionCluster" => $positionCluster,
+            "includeSubstitutedSKUs" => $includeSubstitutedSKUs,
+            "includeSearchTexts" => $includeSearchTexts,
+            "limit" => $limit,
+            "offset" => $offset,
+        ];
+
+
+        return (new WildberriesData($this->postResponse('api/v2/search-report/report', $props)))->data;
+    }
 }
