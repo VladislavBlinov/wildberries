@@ -54,6 +54,30 @@ class WildberriesAdvert extends WildberriesAdvertClient
     }
 
     /**
+     * Получение списка РК поставщика v2
+     *
+     * @param ?int $status
+     * @param ?int $type
+     * @param ?string $order
+     * @param ?string $direction
+     * @return array
+     */
+    public function getAdvertsV2(
+        int $id = null,
+        int $status = null,
+        int $paymentType = null,
+    ): mixed {
+        return (
+        new WildberriesData(
+            $this->postGetAdvertsResponse(
+                'advert/v2/adverts',
+                array_diff(compact('id', 'status', 'paymentType'), [''])
+            )
+        )
+        )->data;
+    }
+
+    /**
      * Получение кол-ва РК поставщика
      */
     public function getPromotionCount(): mixed
