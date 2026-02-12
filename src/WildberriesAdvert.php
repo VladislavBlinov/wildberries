@@ -69,7 +69,7 @@ class WildberriesAdvert extends WildberriesAdvertClient
     ): mixed {
         return (
         new WildberriesData(
-            $this->postGetAdvertsResponse(
+            $this->getResponse(
                 'api/advert/v2/adverts',
                 array_diff(compact('id', 'status', 'paymentType'), [''])
             )
